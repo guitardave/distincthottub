@@ -1,5 +1,5 @@
 import datetime
-
+from django.shortcuts import reverse
 from django.db import models
 
 
@@ -11,9 +11,15 @@ class Customer(models.Model):
     contact_email = models.CharField(default=None, blank=True, null=True, max_length=100)
     address1 = models.CharField(default=None, max_length=200)
     address2 = models.CharField(default=None, max_length=200, blank=True, null=True)
+    city = models.CharField(default=None, max_length=100)
+    state = models.CharField(default='AZ')
+    zip_code = models.CharField(default=None, max_length=12)
     intersection_note = models.CharField(default=None, blank=True, max_length=200, null=True)
     customer_since = models.IntegerField(default=datetime.datetime.now().year)
     customer_notes = models.TextField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('customers:customer_list')
 
 
 class CustomerSpa(models.Model):
