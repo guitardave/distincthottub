@@ -21,10 +21,12 @@
 
 <body>
 	<header class="site-header">
-    {% if user.is_authenticated %}
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+      <nav class="navbar navbar-expand-md navbar-light bg-gradient fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'customers:customer_list' %}">Home</a>
+            <a class="navbar-brand" href="#"><img alt="Distinct Hottub Repair and Service" src="{% static 'images/letter-logo1_sm.png' %}"></a>
+        {% if user.is_authenticated %}
+            <a class="navbar-brand mr-4" href="{% url 'customers:customer_list' %}">Home</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
@@ -59,9 +61,10 @@
               {% endif %}
             </div>
           </div>
+        {% endif %}
         </div>
       </nav>
-    {% endif %}
+
     </header>
 	<main role="main" class="container">
 
