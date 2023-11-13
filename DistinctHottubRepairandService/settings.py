@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'DistinctHottubRepairandService.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'dave-pg-do-user-9288761-0.b.db.ondigitalocean.com',
-        'NAME': 'distinct_hottub',
-        'USER': 'distinct_hottub',
-        'PASSWORD': 'AVNS_fJ7X4J9uVgdm8cDT64D',
+        'HOST': os.getenv('DATABASE_HOST'),
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'PORT': 25060
     }
 }
