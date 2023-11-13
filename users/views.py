@@ -36,6 +36,9 @@ class UserDetail(LoginRequiredMixin, DetailView):
     model = InternalUser
     template_name = 'users/user_detail.html'
 
+    def get_queryset(self):
+        return InternalUser.objects.get(id=self.kwargs['id'])
+
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
     model = InternalUser
