@@ -37,19 +37,16 @@
                     <a class="nav-link dropdown-toggle" href="#" id="carddrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Customers</a>
                     <div class="dropdown-menu" aria-labelledby="carddrp">
                         <a class="dropdown-item" href="{% url 'customers:customer_list' %}">Customer List</a>
-                        {% if user.is_authenticated %}
-                            <a class="dropdown-item" href="{% url 'customers:customer_new' %}">Add Customer</a>
-                        {% endif %}
+                        <a class="dropdown-item" href="{% url 'customers:customer_new' %}">Add Customer</a>
                     </div>
                 </div>
-            <div class="btn-group">
-                        <a class="nav-link dropdown-toggle" href="#" id="pldrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Service/Scheduling</a>
-                        <div class="dropdown-menu" aria-labelledby="pldrp">
-                            <a class="dropdown-item" href="#">View Schedule</a>
-                            {% if user.is_authenticated %}
-                                <a class="dropdown-item" href="#">Enter New Service Request</a>
-                            {% endif %}
-                        </div>
+                <div class="btn-group">
+                    <a class="nav-link dropdown-toggle" href="#" id="pldrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Service/Scheduling</a>
+                    <div class="dropdown-menu" aria-labelledby="pldrp">
+                        <a class="dropdown-item" href="#">View Schedule</a>
+                        <a class="dropdown-item" href="{% url 'service:ticket_list' %}">Service Request List</a>
+{#                            <a class="dropdown-item" href="{% url 'service:ticket_new' %}">Create New Service Request</a>#}
+                    </div>
                 </div>
             </div>
             <!-- Navbar Right Side -->

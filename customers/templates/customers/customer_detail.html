@@ -12,10 +12,12 @@
         <h1>{{ title }}</h1>
         <div class="row">
             <div class="col-sm-12">
-                <p><a href="{% url 'customers:spa_new' object.id %}">Add Spa</a></p>
                 <div class="card bg-dark">
                     <div class="card-header">
-                        <h2><a href="{% url 'customers:customer_update' object.id %}">{{ object.customer_name }}</a></h2>
+                        <p>{{ object.customer_name }}&nbsp;
+                            <a href="{% url 'customers:customer_update' object.id %}" title="Edit customer"><i class="fa fa-edit"></i></a>
+                            &nbsp;<a href="{% url 'service:ticket_new' object.id %}" title="Create Service Request"><i class="fa fa-plus"></i></a>
+                        </p>
                     </div>
                     <div class="card-body">
                         <table class="table table-condensed">
@@ -28,10 +30,13 @@
                                 <td>{{ object.contact_phone }}</td>
                             </tr>
                             <tr>
-                                <td>Spa Info:</td>
+                                <td>Spa Info:<br><a href="{% url 'customers:spa_new' object.id %}" title="Add spa"><i class="fa fa-plus"></i></a></td>
                                 <td>
                                     {% for s in spas %}
-                                        <p><a href="{% url 'customers:spa_update' object.id s.id %}">{{ s.spa_make }} {{ s.spa_model }}<br>{{ s.serial_number }}</a></p>
+                                        <p>
+                                            {{ s.spa_make }} {{ s.spa_model }}<br>{{ s.serial_number }}<br>
+                                            <a href="{% url 'customers:spa_update' object.id s.id %}" title="Edit Spa Info"><i class="fa fa-edit"></i></a>
+                                        </p>
                                     {% endfor %}
                                 </td>
                             </tr>

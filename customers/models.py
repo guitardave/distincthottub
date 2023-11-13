@@ -35,7 +35,7 @@ class CustomerSpa(models.Model):
     installed_date = models.DateField(default=None, blank=True, null=True)
 
     def __str__(self):
-        return self.spa_make + ' ' + self.spa_model
+        return f'{self.spa_make} {self.spa_model} ({self.serial_number})'
 
     def get_absolute_url(self):
         return reverse('customers:customer_detail', kwargs={'pk': self.customer.id})

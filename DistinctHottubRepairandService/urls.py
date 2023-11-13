@@ -21,5 +21,5 @@ app_name = 'distinct_hottub'
 urlpatterns = [
     path('', include('users.urls')),
     path('customers/', include('customers.urls')),
-    path('schedule/', include('service.urls')),
+    path('service/', include('service.urls')),
 ]

@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/update/', views.CustomerUpdate.as_view(), name='customer_update'),
     path('<int:pk>/spa/', views.create_spa, name='spa_new'),
     path('<int:id>/spa/<int:pk>/update/', views.UpdateSpa.as_view(), name='spa_update'),
+    path('<int:id>/spa/<int:pk>/detail/', views.SpaDetail.as_view(), name='spa_detail'),
 ]

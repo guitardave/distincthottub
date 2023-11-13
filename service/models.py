@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 
 
 class ServiceTicket(models.Model):
@@ -12,6 +13,9 @@ class ServiceTicket(models.Model):
     date_completed = models.DateField(default=None, blank=True, null=True)
     under_warranty = models.BooleanField(default=False)
     upfront_charges = models.FloatField(default=0.00)
+
+    def get_absolute_url(self):
+        return reverse('customers:customer_detail', kwargs={'id': self.customer_id})
 
 
 class PartsList(models.Model):

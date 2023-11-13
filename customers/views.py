@@ -82,3 +82,8 @@ class UpdateSpa(UpdateView):
         kwargs = super(UpdateSpa, self).get_form_kwargs()
         kwargs['pk'] = self.kwargs['pk']
         return kwargs
+
+
+class SpaDetail(DetailView):
+    model = CustomerSpa
+    template_name = 'customers/spa_detail.html'
