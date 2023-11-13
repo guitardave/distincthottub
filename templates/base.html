@@ -1,4 +1,5 @@
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,32 +8,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+{#        <link rel="stylesheet" href="{% static 'pub/bootstrap.min.css' %}">#}
         <link rel="stylesheet" href="{% static 'pub/css/mdb.dark.min.css' %}">
         <link rel="stylesheet" href="{% static 'pub/css/mdb.min.css' %}">
         <link rel="stylesheet" href="{% static 'pub/css/mdb.rtl.min.css' %}">
-        <link rel="stylesheet" href="{% static 'pub/main.css' %}">
-{#        <link rel="stylesheet" type="text/css" href="{% static 'pub/main.css' %}">#}
-        <link rel="stylesheet" type="text/css" href="{% static 'pub/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pub/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pub/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+
 	{% if title %}
-		<title>BBCards: {{ title }}</title>
+		<title>Distinct Hottub Repair and Service: {{ title }}</title>
 	{% else %}
-		<title>BBCards</title>
+		<title>Distinct Hottub Repair and Service</title>
 	{% endif %}
 
 </head>
 
 <body>
 	<header class="site-header">
+    {% if user.is_authenticated %}
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'cards:card-list-all' %}">Home</a>
+          <a class="navbar-brand mr-4" href="{% url 'customers:customer_list' %}">Home</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
                 <div class="btn-group">
-                    <a class="nav-link dropdown-toggle" href="{% url 'cards:card-list-all' %}" id="carddrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Customers</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="carddrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Customers</a>
                     <div class="dropdown-menu" aria-labelledby="carddrp">
                         <a class="dropdown-item" href="{% url 'customers:customer_list' %}">Customer List</a>
                         {% if user.is_authenticated %}
@@ -45,7 +49,7 @@
                         <div class="dropdown-menu" aria-labelledby="pldrp">
                             <a class="dropdown-item" href="#">View Schedule</a>
                             {% if user.is_authenticated %}
-                                <a class="dropdown-item" href="{% url 'players:players-new' %}">Enter New Player</a>
+                                <a class="dropdown-item" href="#">Enter New Service Request</a>
                             {% endif %}
                         </div>
                 </div>
@@ -53,18 +57,18 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                  <a class="nav-item nav-link" href="{% url 'users:user-profile' user.id %}">My Profile</a>
-                  <a class="nav-item nav-link" href="{% url 'users:logout' %}">Logout</a>
+                  <a class="nav-item nav-link" href="{% url 'users:user_detail' user.id %}">My Profile</a>
+                  <a class="nav-item nav-link" href="{% url 'users:user_logout' %}">Logout</a>
               {% else %}
-                <a class="nav-item nav-link" href="{% url 'users:login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'users:user_login' %}">Login</a>
               {% endif %}
             </div>
           </div>
         </div>
       </nav>
+    {% endif %}
     </header>
 	<main role="main" class="container">
-        {% load django_bootstrap_breadcrumbs %}
 
         {% block breadcrumbs %}
             {% clear_breadcrumbs %}

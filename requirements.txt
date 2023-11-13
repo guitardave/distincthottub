@@ -9,8 +9,8 @@ tzdata==2023.3
 wheel==0.38.4
 gunicorn
 django-heroku
-django-crispy-forms
+django-crispy-forms==1.14.0
 environ
-django-bootstrap-breadcrumbs
+django4-bootstrap-breadcrumbs
 psycopg
 pytz

@@ -1,15 +1,15 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Customer, CustomerSpa
 
 
-class CustomerForm(ModelForm):
+class CustomerForm(forms.ModelForm):
 
     class Meta:
         model = Customer
         fields = '__all__'
 
 
-class CustomerSpaForm(ModelForm):
+class CustomerSpaForm(forms.ModelForm):
 
     class Meta:
         model = CustomerSpa
