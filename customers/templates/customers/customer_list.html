@@ -22,7 +22,7 @@
                     </tr>
                     {% for o in out %}
                         <tr>
-                            <td>{{ o.customer_name }}</td>
+                            <td><a href="{% url 'customers:customer_detail' o.id %}">{{ o.customer_name }}</a></td>
                             <td>{{ o.address1 }} {{ o.city }} {{ o.state }} {{ o.zip_code }}</td>
                             <td>{{ o.contact_first }} {{ o.contact_last }}</td>
                             <td>{{ o.contact_phone }}</td>

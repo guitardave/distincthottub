@@ -18,8 +18,11 @@ class Customer(models.Model):
     customer_since = models.IntegerField(default=datetime.datetime.now().year)
     customer_notes = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.customer_name
+
     def get_absolute_url(self):
-        return reverse('customers:spa_detail', kwargs={'id': self.id})
+        return reverse('customers:spa_new', kwargs={'pk': self.id})
 
 
 class CustomerSpa(models.Model):
@@ -31,7 +34,9 @@ class CustomerSpa(models.Model):
     serial_number = models.CharField(default=None, max_length=100, blank=True, null=True)
     installed_date = models.DateField(default=None, blank=True, null=True)
 
-    def get_absolute_url(self):
-        return reverse('customers:customer_detail', kwargs={'id': self.customer.id})
+    def __str__(self):
+        return self.spa_make + ' ' + self.spa_model
 
+    def get_absolute_url(self):
+        return reverse('customers:customer_detail', kwargs={'pk': self.customer.id})
 

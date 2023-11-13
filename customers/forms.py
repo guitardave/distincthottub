@@ -15,8 +15,8 @@ class CustomerSpaForm(forms.ModelForm):
         model = CustomerSpa
         fields = '__all__'
 
-    def __int__(self, *args, **kwargs):
-        cust = kwargs.pop('id')
+    def __init__(self, *args, **kwargs):
+        cust = kwargs.pop('pk')
         super(CustomerSpaForm, self).__init__(*args, **kwargs)
         self.fields['customer'].queryset = Customer.objects.filter(id=cust)
         

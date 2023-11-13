@@ -12,6 +12,32 @@
         <h1>{{ title }}</h1>
         <div class="row">
             <div class="col-sm-12">
+                <p><a href="{% url 'customers:spa_new' object.id %}">Add Spa</a></p>
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h2><a href="{% url 'customers:customer_update' object.id %}">{{ object.customer_name }}</a></h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Contact:</td>
+                                <td>{{ object.contact_first }} {{ object.contact_last }}</td>
+                            </tr>
+                            <tr>
+                                <td>Phone:</td>
+                                <td>{{ object.contact_phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Spa Info:</td>
+                                <td>
+                                    {% for s in spas %}
+                                        <p><a href="{% url 'customers:spa_update' object.id s.id %}">{{ s.spa_make }} {{ s.spa_model }}<br>{{ s.serial_number }}</a></p>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
