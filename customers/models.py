@@ -19,7 +19,7 @@ class Customer(models.Model):
     customer_notes = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('customers:customer_list')
+        return reverse('customers:spa_detail', kwargs={'id': self.id})
 
 
 class CustomerSpa(models.Model):
@@ -30,5 +30,8 @@ class CustomerSpa(models.Model):
     water_system = models.CharField(default=None, max_length=100, blank=True, null=True)
     serial_number = models.CharField(default=None, max_length=100, blank=True, null=True)
     installed_date = models.DateField(default=None, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('customers:customer_detail', kwargs={'id': self.customer.id})
 
 
