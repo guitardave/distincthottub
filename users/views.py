@@ -55,7 +55,7 @@ class UserDetail(IsStaffMixin, DetailView):
     template_name = 'users/user_detail.html'
 
     def get_queryset(self):
-        return InternalUser.objects.get(id=self.kwargs['id'])
+        return InternalUser.objects.filter(id=self.kwargs['pk'])
 
 
 class UserCreate(IsStaffMixin, CreateView):
