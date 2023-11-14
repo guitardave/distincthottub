@@ -3,7 +3,7 @@ from .models import ServiceTicket, Schedule, PartsList
 from customers.models import Customer, CustomerSpa
 
 
-class ServiceFormScratch(forms.ModelForm):
+class ServiceFormBlank(forms.ModelForm):
 
     class Meta:
         model = ServiceTicket

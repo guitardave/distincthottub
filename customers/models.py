@@ -33,6 +33,7 @@ class CustomerSpa(models.Model):
     water_system = models.CharField(default=None, max_length=100, blank=True, null=True)
     serial_number = models.CharField(default=None, max_length=100, blank=True, null=True)
     installed_date = models.DateField(default=None, blank=True, null=True)
+    spa_note = models.TextField(default=None, blank=True, null=True)
 
     def __str__(self):
         return f'{self.spa_make} {self.spa_model} ({self.serial_number})'

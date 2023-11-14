@@ -1,13 +1,15 @@
 from django.contrib import messages
 from django.shortcuts import HttpResponseRedirect, redirect, render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView)
+from django.contrib.auth.decorators import login_required
 
+import service.models
+from service.views import IsStaffMixin
 from .models import *
 from .forms import *
 
 
-class CustomerList(ListView):
+class CustomerList(IsStaffMixin, ListView):
     model = Customer
     template_name = 'customers/customer_list.html'
     context_object_name = 'out'
@@ -22,7 +24,7 @@ class CustomerList(ListView):
         return data
 
 
-class CustomerCreate(CreateView):
+class CustomerCreate(IsStaffMixin, CreateView):
     model = Customer
     template_name = 'customers/customer_form.html'
     form_class = CustomerForm
@@ -35,7 +37,7 @@ class CustomerCreate(CreateView):
         return data
 
 
-class CustomerDetail(DetailView):
+class CustomerDetail(IsStaffMixin, DetailView):
     model = Customer
     template_name = 'customers/customer_detail.html'
 
@@ -44,14 +46,16 @@ class CustomerDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         spas = CustomerSpa.objects.filter(customer_id=self.kwargs['pk'])
+        service_list = service.models.ServiceTicket.objects.filter(customer_id=self.kwargs['pk'])
         data = super(CustomerDetail, self).get_context_data(**kwargs)
         data['title'] = 'Customer Detail'
         data['spas'] = spas
+        data['service_tix'] = service_list
         data['out'] = self.get_queryset()
         return data
 
 
-class CustomerUpdate(UpdateView):
+class CustomerUpdate(IsStaffMixin, UpdateView):
     model = Customer
     template_name = 'customers/customer_form.html'
     form_class = CustomerForm
@@ -60,6 +64,7 @@ class CustomerUpdate(UpdateView):
         return reverse('customers:customer_detail', kwargs={'pk': self.kwargs['pk']})
 
 
+@login_required(login_url='/users')
 def create_spa(request, pk):
     obj = Customer.objects.get(pk=pk)
     kwargs = {'pk': pk}
@@ -73,7 +78,7 @@ def create_spa(request, pk):
     return render(request, 'customers/spa_form.html', context)
 
 
-class UpdateSpa(UpdateView):
+class UpdateSpa(IsStaffMixin, UpdateView):
     model = CustomerSpa
     template_name = 'customers/spa_form.html'
     form_class = CustomerSpaForm
@@ -84,6 +89,16 @@ class UpdateSpa(UpdateView):
         return kwargs
 
 
-class SpaDetail(DetailView):
+class SpaDetail(IsStaffMixin, DetailView):
     model = CustomerSpa
     template_name = 'customers/spa_detail.html'
+
+    def get_queryset(self):
+        return CustomerSpa.objects.filter(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        tix = service.models.ServiceTicket.objects.filter(spa_id=self.kwargs['pk'])
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Spa Detail'
+        data['tix'] = tix
+        return data

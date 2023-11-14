@@ -19,9 +19,15 @@
                         <p>{{ object.spa_make }}&nbsp;{{ object.spa_model }}&nbsp;<a href="{% url 'customers:spa_update' object.customer_id object.id %}"><i class="fa fa-edit"></i></a></p>
                     </div>
                     <div class="card-body">
-                        Serial: {{ object.serial_number }}
-                        Subpanel: {{ object.spa_subpanel }}
-                        Water System: {{ object.water_system }}
+                        Serial: {{ object.serial_number }}<br>
+                        Subpanel: {{ object.spa_subpanel }}<br>
+                        Water System: {{ object.water_system }}<br>
+                        Notes: {{ object.spa_note }}
+                    </div>
+                    <div class="card-footer">
+                        {% for t in tix %}
+                            <p>{{ t.service_date }} - {{ t.primary_issue }}</p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

@@ -1,13 +1,23 @@
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 
 from customers.models import *
 from .models import *
-from .forms import ServiceForm, ServiceFormScratch
+from .forms import ServiceForm, ServiceFormBlank
 
 
-class ServiceTicketList(ListView):
+class IsStaffMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('users:user_login')
+
+
+class ServiceTicketList(IsStaffMixin, ListView):
     model = ServiceTicket
     template_name = 'service/ticket_list.html'
     context_object_name = 'out'
@@ -22,11 +32,11 @@ class ServiceTicketList(ListView):
         return data
 
 
-class ServiceTicketScratch(CreateView):
+class ServiceTicketScratch(IsStaffMixin, CreateView):
     model = ServiceTicket
     template_name = 'service/ticket_form.html'
     context_object_name = 'out'
-    form_class = ServiceFormScratch
+    form_class = ServiceFormBlank
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -35,26 +45,7 @@ class ServiceTicketScratch(CreateView):
         return data
 
 
-class ServiceTicketNew(CreateView):
-    model = ServiceTicket
-    template_name = 'service/ticket_form.html'
-    context_object_name = 'out'
-    form_class = ServiceForm
-
-    def get_context_data(self, **kwargs):
-        # cust = customers.models.Customer.objects.get(id=self.kwargs['id'])
-        data = super().get_context_data(**kwargs)
-        data['title'] = 'Create Service Ticket'
-        # data['cust'] = cust
-        data['out'] = self.context_object_name
-        return data
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['id'] = self.kwargs['id']
-        return kwargs
-
-
+@login_required(login_url='/users')
 def create_service_ticket(request, id):
     cust = Customer.objects.get(id=id)
     kwargs = {'id': id}
@@ -68,26 +59,34 @@ def create_service_ticket(request, id):
     return render(request, 'service/ticket_form.html', context)
 
 
-class ServiceTicketUpdate(UpdateView):
-    model = ServiceTicket
-    template_name = 'service/ticket_form.html'
-    context_object_name = 'out'
-    form_class = ServiceForm
+@login_required(login_url='/users')
+def update_service_ticket(request, id, pk):
+    ticket = ServiceTicket.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ServiceFormBlank(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Service Request updated successfully')
+            return redirect('service:ticket_list')
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['id'] = self.kwargs['id']
-        return kwargs
+    context = {'title': 'Update Service Ticket', 'form': ServiceFormBlank(instance=ticket)}
+    return render(request, 'service/ticket_form.html', context)
+
+
+class ServiceTicketDetail(IsStaffMixin, DetailView):
+    model = ServiceTicket
+    template_name = 'service/ticket_detail.html'
+
+    def get_queryset(self):
+        return ServiceTicket.objects.filter(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        cust = Customer.objects.get(id=self.kwargs['id'])
-        data['title'] = 'Update Service Request'
-        data['cust'] = cust
-        data['out'] = self.context_object_name
+        data['title'] = 'Service Detail'
         return data
 
 
+@login_required(login_url='/users')
 def schedule_list(request):
     obj = Schedule.objects.filter(service_ticket__is_complete=False).order_by('-date_scheduled')
     context = {'title': 'Service Schedule', 'out': obj}

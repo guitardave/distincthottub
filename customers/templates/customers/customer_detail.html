@@ -22,15 +22,15 @@
                     <div class="card-body">
                         <table class="table table-condensed">
                             <tr>
-                                <td>Contact:</td>
+                                <td>Contact Name:</td>
                                 <td>{{ object.contact_first }} {{ object.contact_last }}</td>
                             </tr>
                             <tr>
-                                <td>Contact</td>
+                                <td>Contact Info: </td>
                                 <td>{{ object.contact_phone }}&nbsp;|&nbsp;{{ object.contact_email }}</td>
                             </tr>
                             <tr>
-                                <td>Spa Info:<br><a href="{% url 'customers:spa_new' object.id %}" title="Add spa"><i class="fa fa-plus"></i></a></td>
+                                <td>Spa Info:<br>({{ spas.count }} spa) <a href="{% url 'customers:spa_new' object.id %}" title="Add spa"><i class="fa fa-plus"></i></a></td>
                                 <td>
                                     {% for s in spas %}
                                         <p>
@@ -43,6 +43,14 @@
                             <tr>
                                 <td>Notes:</td>
                                 <td>{{ object.customer_notes }}</td>
+                            </tr>
+                            <tr>
+                                <td>Service History:</td>
+                                <td>
+                                    {% for tix in service_tix %}
+                                        <p>Service Date: <a href="{% url 'service:ticket_detail' object.id tix.id %}">{{ tix.service_date }}</a> | Is Complete: {{ tix.is_complete }}</p>
+                                    {% endfor %}
+                                </td>
                             </tr>
                         </table>
                     </div>

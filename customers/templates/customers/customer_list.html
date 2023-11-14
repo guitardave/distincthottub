@@ -28,7 +28,10 @@
                             <td>{{ o.contact_first }} {{ o.contact_last }}</td>
                             <td>{{ o.contact_phone }}</td>
                             <td></td>
-                            <td><a href="{% url 'service:ticket_new' o.id %}"><i class="fa fa-plus"></i></a></td>
+                            <td>
+                                <a href="{% url 'service:ticket_new' o.id %}" title="Create service request"><i class="fa fa-plus"></i></a>&nbsp;
+                                <a href="{% url 'customers:customer_update' o.id %}" title="Edit customer info"><i class="fa fa-edit"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

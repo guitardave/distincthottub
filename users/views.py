@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.views import PasswordResetCompleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, UpdateView
+
+from service.views import IsStaffMixin
 from .models import InternalUser
 from .forms import UserForm
 
@@ -26,13 +28,14 @@ def login_view(request):
     return render(request, 'users/login.html', context)
 
 
+@login_required(login_url='/users')
 def logout_view(request):
     logout(request)
     messages.success(request, 'logout successful')
     return HttpResponseRedirect('/')
 
 
-class UserDetail(LoginRequiredMixin, DetailView):
+class UserDetail(IsStaffMixin, DetailView):
     model = InternalUser
     template_name = 'users/user_detail.html'
 
@@ -40,7 +43,7 @@ class UserDetail(LoginRequiredMixin, DetailView):
         return InternalUser.objects.get(id=self.kwargs['id'])
 
 
-class UserUpdate(LoginRequiredMixin, UpdateView):
+class UserUpdate(IsStaffMixin, UpdateView):
     model = InternalUser
     template_name = 'users/user_update.html'
     form_class = UserForm
