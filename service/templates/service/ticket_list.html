@@ -17,6 +17,7 @@
                         <th>Customer</th>
                         <th>Spa Make/Model</th>
                         <th>Service Date</th>
+                        <th>Assigned Tech</th>
                         <th>Actions</th>
                     </tr>
                     {% for o in out %}
@@ -24,6 +25,7 @@
                             <td><a href="{% url 'customers:customer_detail' o.customer_id %}">{{ o.customer.customer_name }}</a></td>
                             <td><a href="{% url 'customers:spa_detail' o.customer_id o.spa_id %}">{{ o.spa.spa_make }}/{{ o.spa.spa_model }}</a></td>
                             <td>{{ o.service_date }}</td>
+                            <td>{{ o.technician }}</td>
                             <td><a href="{% url 'service:ticket_update' o.customer_id o.id %}"><i class="fa fa-edit"></i></a></td>
                         </tr>
                     {% endfor %}
