@@ -86,3 +86,9 @@ class ServiceTicketUpdate(UpdateView):
         data['cust'] = cust
         data['out'] = self.context_object_name
         return data
+
+
+def schedule_list(request):
+    obj = Schedule.objects.filter(service_ticket__is_complete=False).order_by('-date_scheduled')
+    context = {'title': 'Service Schedule', 'out': obj}
+    return render(request, 'service/schedule_list.html', context)

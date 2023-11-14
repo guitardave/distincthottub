@@ -8,4 +8,5 @@ urlpatterns = [
     # path('new/', views.ServiceTicketScratch.as_view(), name='ticket_new'),
     path('<int:id>/new/', views.create_service_ticket, name='ticket_new'),
     path('<int:id>/update/<int:pk>/', views.ServiceTicketUpdate.as_view(), name='ticket_update'),
+    path('schedule/', views.schedule_list, name='schedule_list'),
 ]
