@@ -18,6 +18,9 @@
                         <p><a href="{% url 'customers:customer_detail' object.customer_id %}">{{ object.customer }}</a> | {{ object.service_date }}&nbsp;<a href="{% url 'service:ticket_update' object.customer_id object.id %}"><i class="fa fa-edit"></i></a></p>
                     </div>
                     <div class="card-body">
+                        <p><a href="{% url 'customers:spa_detail' object.customer_id object.spa_id %}">{{ object.spa }}</a></p>
+                    </div>
+                    <div class="card-body">
                         <p>{{ object.primary_issue }}</p>
                     </div>
                     <div class="card-footer">
