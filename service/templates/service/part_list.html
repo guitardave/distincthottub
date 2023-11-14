@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Service Tickets" "service:ticket_list" %}
+{% endblock breadcrumbs %}
+{% block content %}
+    {% load static %}
+	<div class="container">
+        <div><small class="text-muted">{% render_breadcrumbs %}</small></div>
+        <h1>{{ title }}</h1>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-condensed table-dark">
+                    <tr>
+                        <th>Part Number</th>
+                        <th>Part Name</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for o in out %}
+                        <tr>
+                            <td>{{ o.part_number }}</td>
+                            <td>{{ o.part_name }}</td>
+                            <td>
+                                <a href="{% url 'service:part_update' o.id %}" title="Edit part info"><i class="fa fa-edit"></i></a>&nbsp;
+                                <a href="{% url 'service:part_detail' o.id %}" title="Part Detail"><i class="fa fa-info"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

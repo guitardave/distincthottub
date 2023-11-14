@@ -22,3 +22,9 @@ class ServiceForm(forms.ModelForm):
         self.fields['customer'].queryset = Customer.objects.filter(id=cust)
         self.fields['spa'].queryset = CustomerSpa.objects.filter(customer_id=cust)
 
+
+class PartForm(forms.ModelForm):
+
+    class Meta:
+        model = PartsList
+        fields = '__all__'

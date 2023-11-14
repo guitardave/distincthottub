@@ -48,6 +48,21 @@
 {#                            <a class="dropdown-item" href="{% url 'service:ticket_new' %}">Create New Service Request</a>#}
                     </div>
                 </div>
+                <div class="btn-group">
+                    <a class="nav-link dropdown-toggle" href="#" id="partdrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Parts/Inventory</a>
+                    <div class="dropdown-menu" aria-labelledby="partdrp">
+                        <a class="dropdown-item" href="{% url 'service:part_list' %}">Parts List</a>
+                        <a class="dropdown-item" href="{% url 'service:part_new' %}">Add New Part</a>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a class="nav-link dropdown-toggle" href="#" id="billdrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Billing</a>
+                    <div class="dropdown-menu" aria-labelledby="billdrp">
+                        <a class="dropdown-item" href="#">Create Invoice</a>
+                        <a class="dropdown-item" href="#">Open Invoices</a>
+                        <a class="dropdown-item" href="#">Closed Invoices</a>
+                    </div>
+                </div>
             </div>
             <!-- Navbar Right Side -->
 

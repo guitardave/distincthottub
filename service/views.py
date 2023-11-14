@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 import users.models
 from customers.models import *
 from .models import *
-from .forms import ServiceForm, ServiceFormBlank
+from .forms import ServiceForm, ServiceFormBlank, PartForm
 
 
 class IsStaffMixin(LoginRequiredMixin, UserPassesTestMixin):
@@ -97,3 +97,57 @@ def schedule_list(request):
             out.append(dict(tech=t.first_name, service_date=o.service_date, customer_id=o.customer_id, ticket_id=o.id))
     context = {'title': 'Service Schedule', 'out': out}
     return render(request, 'service/schedule_list.html', context)
+
+
+class PartListView(IsStaffMixin, ListView):
+    model = PartsList
+    template_name = 'service/part_list.html'
+    context_object_name = 'out'
+
+    def get_queryset(self):
+        return PartsList.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Parts List'
+        data['out'] = self.get_queryset()
+        return data
+
+
+class PartDetail(IsStaffMixin, DetailView):
+    model = PartsList
+    template_name = 'service/part_detail.html'
+
+    def get_queryset(self):
+        return PartsList.objects.filter(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Part Detail'
+        return data
+
+
+class PartNew(IsStaffMixin, CreateView):
+    model = PartsList
+    template_name = 'service/part_form.html'
+    context_object_name = 'out'
+    form_class = PartForm
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Add Part'
+        data['out'] = self.context_object_name
+        return data
+
+
+class PartUpdate(IsStaffMixin, UpdateView):
+    model = PartsList
+    template_name = ''
+    context_object_name = 'out'
+    form_class = PartForm
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Update Part'
+        data['out'] = self.context_object_name
+        return data

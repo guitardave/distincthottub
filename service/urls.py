@@ -10,4 +10,8 @@ urlpatterns = [
     path('<int:id>/update/<int:pk>/', views.update_service_ticket, name='ticket_update'),
     path('<int:id>/detail/<int:pk>/', views.ServiceTicketDetail.as_view(), name='ticket_detail'),
     path('schedule/', views.schedule_list, name='schedule_list'),
+    path('parts/', views.PartListView.as_view(), name='part_list'),
+    path('parts/<int:pk>/detail/', views.PartDetail.as_view(), name='part_detail'),
+    path('parts', views.PartUpdate.as_view(), name='part_update'),
+    path('parts/new/', views.PartNew.as_view(), name='part_new'),
 ]
