@@ -3,7 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Customers" "customers:customer_list" %}
+    {% breadcrumb "Service Requests" "service:ticket_list" %}
     {% if cust %}
         {% breadcrumb cust.customer_name 'customers:customer_detail' cust.id %}
     {% endif %}

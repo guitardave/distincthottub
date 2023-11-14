@@ -3,6 +3,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {{ block.super }}
+    {% breadcrumb "User List" "users:user_list" %}
     {% breadcrumb 'User Form' "users:user_update" %}
 {% endblock breadcrumbs %}
 {% block content %}

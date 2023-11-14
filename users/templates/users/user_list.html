@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "User List" "users:user_list" %}
+{% endblock breadcrumbs %}
+{% block content %}
+    {% load static %}
+	<div class="container">
+        <div><small class="text-muted">{% render_breadcrumbs %}</small></div>
+        <h1>{{ title }}</h1>
+        <div class="row">
+            <div class="col-sm-12">
+                <p><a href="{% url 'users:user_new' %}" title="Create new user"><i class="fa fa-plus"></i></a></p>
+                <table class="table table-condensed table-dark">
+                    <tr>
+                        <td>Name</td>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Position</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for o in out %}
+                        <tr>
+                            <td>{{ o.first_name }} {{ o.last_name }}</td>
+                            <td>{{ o.username }}</td>
+                            <td>{{ o.email }}</td>
+                            <td>{{ o.position }}</td>
+                            <td><a href="{% url 'users:user_update' o.id %}"><i class="fa fa-edit"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

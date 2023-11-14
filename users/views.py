@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.views import PasswordResetCompleteView
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, ListView, CreateView
 
 from service.views import IsStaffMixin
 from .models import InternalUser
@@ -35,6 +35,21 @@ def logout_view(request):
     return HttpResponseRedirect('/')
 
 
+class UserList(IsStaffMixin, ListView):
+    model = InternalUser
+    template_name = 'users/user_list.html'
+    context_object_name = 'out'
+
+    def get_queryset(self):
+        return InternalUser.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'User List'
+        data['out'] = self.get_queryset()
+        return data
+
+
 class UserDetail(IsStaffMixin, DetailView):
     model = InternalUser
     template_name = 'users/user_detail.html'
@@ -43,9 +58,9 @@ class UserDetail(IsStaffMixin, DetailView):
         return InternalUser.objects.get(id=self.kwargs['id'])
 
 
-class UserUpdate(IsStaffMixin, UpdateView):
+class UserCreate(IsStaffMixin, CreateView):
     model = InternalUser
-    template_name = 'users/user_update.html'
+    template_name = 'users/user_form.html'
     form_class = UserForm
 
     def form_valid(self, form):
@@ -53,4 +68,17 @@ class UserUpdate(IsStaffMixin, UpdateView):
         password = form.cleaned_data['password']
         user.set_password(password)
         user.save()
-        return redirect('users:user-profile', self.kwargs.get('pk'))
+        return redirect('users:user_list', self.kwargs.get('pk'))
+
+
+class UserUpdate(IsStaffMixin, UpdateView):
+    model = InternalUser
+    template_name = 'users/user_form.html'
+    form_class = UserForm
+
+    def form_valid(self, form):
+        user = form.save(commit=True)
+        password = form.cleaned_data['password']
+        user.set_password(password)
+        user.save()
+        return redirect('users:user_list', self.kwargs.get('pk'))

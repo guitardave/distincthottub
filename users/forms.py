@@ -6,4 +6,4 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = InternalUser
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'username', 'password', 'email', 'is_staff', 'position']
