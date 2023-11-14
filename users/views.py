@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.views import PasswordResetCompleteView
@@ -35,7 +35,7 @@ def logout_view(request):
     return HttpResponseRedirect('/')
 
 
-class UserList(IsStaffMixin, ListView):
+class UserListView(IsStaffMixin, ListView):
     model = InternalUser
     template_name = 'users/user_list.html'
     context_object_name = 'out'
@@ -63,12 +63,15 @@ class UserCreate(IsStaffMixin, CreateView):
     template_name = 'users/user_form.html'
     form_class = UserForm
 
+    def get_success_url(self):
+        return reverse('users:user_list')
+
     def form_valid(self, form):
         user = form.save(commit=True)
         password = form.cleaned_data['password']
         user.set_password(password)
         user.save()
-        return redirect('users:user_list', self.kwargs.get('pk'))
+        return redirect('users:user_detail', self.kwargs.get('pk'))
 
 
 class UserUpdate(IsStaffMixin, UpdateView):
@@ -76,9 +79,12 @@ class UserUpdate(IsStaffMixin, UpdateView):
     template_name = 'users/user_form.html'
     form_class = UserForm
 
+    def get_success_url(self):
+        return reverse('users:user_list')
+
     def form_valid(self, form):
         user = form.save(commit=True)
         password = form.cleaned_data['password']
         user.set_password(password)
         user.save()
-        return redirect('users:user_list', self.kwargs.get('pk'))
+        return redirect('users:user_detail', self.kwargs.get('pk'))
