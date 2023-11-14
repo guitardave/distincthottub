@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
+import users.models
 from customers.models import *
 from .models import *
 from .forms import ServiceForm, ServiceFormBlank
@@ -88,6 +89,11 @@ class ServiceTicketDetail(IsStaffMixin, DetailView):
 
 @login_required(login_url='/users')
 def schedule_list(request):
-    obj = Schedule.objects.filter(service_ticket__is_complete=False).order_by('-date_scheduled')
-    context = {'title': 'Service Schedule', 'out': obj}
+    out = []
+    techs = users.models.InternalUser.objects.filter(position='Technician', is_active=True)
+    for t in techs:
+        obj = ServiceTicket.objects.filter(is_complete=False, technician=t).order_by('-service_date')
+        for o in obj:
+            out.append(dict(tech=t.first_name, service_date=o.service_date, customer_id=o.customer_id, ticket_id=o.id))
+    context = {'title': 'Service Schedule', 'out': out}
     return render(request, 'service/schedule_list.html', context)
