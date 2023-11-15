@@ -16,4 +16,5 @@ urlpatterns = [
     path('parts/new/', views.PartNew.as_view(), name='part_new'),
     path('invoice/', views.InvoiceList.as_view(), name='invoice_list'),
     path('invoice/new', views.InvoiceNew.as_view(), name='invoice_new'),
+    path('invoive/<int:pk>/detail/', views.InvoiceDetail.as_view(), name='invoice_detail'),
 ]

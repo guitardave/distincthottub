@@ -173,3 +173,16 @@ class InvoiceList(IsStaffMixin, ListView):
         data['title'] = 'Open Invoices'
         data['out'] = self.get_queryset()
         return data
+
+
+class InvoiceDetail(IsStaffMixin, DetailView):
+    model = Invoice
+    template_name = 'service/invoice_detail.html'
+
+    def get_queryset(self):
+        return Invoice.objects.filter(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Invoice Detail'
+        return data

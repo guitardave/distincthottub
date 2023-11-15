@@ -15,6 +15,9 @@ class ServiceTicket(models.Model):
     under_warranty = models.BooleanField(default=False)
     upfront_charges = models.FloatField(default=0.00)
 
+    def __str__(self):
+        return f'{self.customer}/{self.spa}/{self.technician}'
+
     def get_absolute_url(self):
         return reverse('customers:customer_detail', kwargs={'id': self.customer_id})
 
@@ -27,6 +30,12 @@ class PartsList(models.Model):
     part_price = models.FloatField(default=0.00)
     is_discontinued = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f'{self.part_name}/{self.part_number}'
+
+    def get_absolute_url(self):
+        return reverse('service:part_list')
+
 
 class Invoice(models.Model):
     service_ticket = models.ForeignKey(ServiceTicket, related_name='+', on_delete=models.DO_NOTHING)
@@ -36,6 +45,12 @@ class Invoice(models.Model):
     is_paid = models.BooleanField(default=False)
     date_paid = models.DateField(default=None, blank=True, null=True)
     date_entered = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.service_ticket.customer} - {self.service_ticket}'
+
+    def get_absolute_url(self):
+        return reverse('service:invoice_list')
 
 
 class InvoiceDetail(models.Model):
