@@ -41,6 +41,8 @@ class Invoice(models.Model):
 class InvoiceDetail(models.Model):
     invoice = models.ForeignKey(Invoice, related_name='+', on_delete=models.CASCADE)
     part = models.ForeignKey(PartsList, related_name='+', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+    adjusted_cost = models.FloatField(default=0.0)
 
 
 class Schedule(models.Model):

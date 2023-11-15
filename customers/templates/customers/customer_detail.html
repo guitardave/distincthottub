@@ -4,6 +4,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb "Customers" "customers:customer_list" %}
+    {% breadcrumb object.customer_name 'customers:customer_detail' object.id %}
 {% endblock breadcrumbs %}
 {% block content %}
     {% load static %}

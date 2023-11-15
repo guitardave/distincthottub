@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 import users.models
 from customers.models import *
 from .models import *
-from .forms import ServiceForm, ServiceFormBlank, PartForm
+from .forms import ServiceForm, ServiceFormBlank, PartForm, InvoiceForm, InvoiceDetailForm
 
 
 class IsStaffMixin(LoginRequiredMixin, UserPassesTestMixin):
@@ -150,4 +150,26 @@ class PartUpdate(IsStaffMixin, UpdateView):
         data = super().get_context_data(**kwargs)
         data['title'] = 'Update Part'
         data['out'] = self.context_object_name
+        return data
+
+
+class InvoiceNew(IsStaffMixin, CreateView):
+    model = Invoice
+    template_name = 'service/invoice_form.html'
+    context_object_name = 'out'
+    form_class = InvoiceForm
+
+
+class InvoiceList(IsStaffMixin, ListView):
+    model = Invoice
+    template_name = 'service/invoice_list.html'
+    context_object_name = 'out'
+
+    def get_queryset(self):
+        return Invoice.objects.filter(is_paid=False).order_by('-date_entered')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Open Invoices'
+        data['out'] = self.get_queryset()
         return data

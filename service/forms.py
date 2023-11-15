@@ -1,5 +1,5 @@
 from django import forms
-from .models import ServiceTicket, Schedule, PartsList
+from .models import ServiceTicket, Schedule, PartsList, Invoice, InvoiceDetail
 from customers.models import Customer, CustomerSpa
 
 
@@ -27,4 +27,18 @@ class PartForm(forms.ModelForm):
 
     class Meta:
         model = PartsList
+        fields = '__all__'
+
+
+class InvoiceForm(forms.ModelForm):
+
+    class Meta:
+        model = Invoice
+        fields = '__all__'
+
+
+class InvoiceDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = InvoiceDetail
         fields = '__all__'
