@@ -94,7 +94,7 @@ def schedule_list(request):
     for t in techs:
         obj = ServiceTicket.objects.filter(is_complete=False, technician=t).order_by('-service_date')
         for o in obj:
-            out.append(dict(tech=t.first_name, service_date=o.service_date, customer_id=o.customer_id, ticket_id=o.id))
+            out.append(dict(tech=t.first_name, service_date=o.service_date, customer_id=o.customer_id, customer_name=o.customer.customer_name, ticket_id=o.id))
     context = {'title': 'Service Schedule', 'out': out}
     return render(request, 'service/schedule_list.html', context)
 

@@ -27,7 +27,14 @@
                             <td>{{ o.username }}</td>
                             <td>{{ o.email }}</td>
                             <td>{{ o.position }}</td>
-                            <td><a href="{% url 'users:user_update' o.id %}"><i class="fa fa-edit"></i></a></td>
+                            <td>
+                                <a href="{% url 'users:user_detail' o.id %}"><i class="fa fa-info"></i></a>&nbsp;
+                                {% if o.id == my_id %}
+                                    <a href="{% url 'users:user_update' o.id %}"><i class="fa fa-edit"></i></a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

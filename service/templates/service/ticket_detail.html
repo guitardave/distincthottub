@@ -19,9 +19,12 @@
                     </div>
                     <div class="card-body">
                         <p><a href="{% url 'customers:spa_detail' object.customer_id object.spa_id %}">{{ object.spa }}</a></p>
+                        <p>Subpanel: {{ object.spa.spa_subpanel }}</p>
+                        <p>Water System: {{ object.spa.water_system }}</p>
+                        <p>Notes: {{ object.spa.spa_note }}</p>
                     </div>
                     <div class="card-body">
-                        <p>{{ object.primary_issue }}</p>
+                        <p>Issue:<br><em>{{ object.primary_issue }}</em></p>
                     </div>
                     <div class="card-footer">
                         Complete: {{ object.is_complete }} | Date complete: {{ object.date_completed }}
