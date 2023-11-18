@@ -159,6 +159,12 @@ class InvoiceNew(IsStaffMixin, CreateView):
     context_object_name = 'out'
     form_class = InvoiceForm
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Create Invoice'
+        data['out'] = self.context_object_name
+        return data
+
 
 class InvoiceList(IsStaffMixin, ListView):
     model = Invoice
@@ -166,7 +172,10 @@ class InvoiceList(IsStaffMixin, ListView):
     context_object_name = 'out'
 
     def get_queryset(self):
-        return Invoice.objects.filter(is_paid=False).order_by('-date_entered')
+        if self.kwargs['closed'] and self.kwargs['closed'] == 'closed':
+            return Invoice.objects.filter(is_paid=True).order_by('-date_entered')
+        else:
+            return Invoice.objects.filter(is_paid=False).order_by('-date_entered')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -185,4 +194,17 @@ class InvoiceDetail(IsStaffMixin, DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['title'] = 'Invoice Detail'
+        return data
+
+
+class InvoiceUpdate(IsStaffMixin, UpdateView):
+    model = Invoice
+    template_name = 'service/invoice_form.html'
+    context_object_name = 'out'
+    form_class = InvoiceForm
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Update Invoice'
+        data['out'] = self.context_object_name
         return data

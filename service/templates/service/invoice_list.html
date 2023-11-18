@@ -21,9 +21,10 @@
                     {% for o in out %}
                         <tr>
                             <td>{{ o.date_entered }}</td>
-                            <td>{{ o.service_ticket.customer }}</td>
+                            <td><a href="{% url 'customers:customer_detail' o.service_ticket.customer_id  %}">{{ o.service_ticket.customer }}</a></td>
                             <td>
-
+                                <a href="{% url 'service:invoice_detail' o.id %}"><i class="fa fa-info"></i></a>&nbsp;
+                                <a href="{% url 'service:invoice_update' o.id %}"><i class="fa fa-edit"></i></a>
                             </td>
                         </tr>
                     {% endfor %}

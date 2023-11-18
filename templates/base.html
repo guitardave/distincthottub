@@ -59,8 +59,9 @@
                     <a class="nav-link dropdown-toggle" href="#" id="billdrp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Billing</a>
                     <div class="dropdown-menu" aria-labelledby="billdrp">
                         <a class="dropdown-item" href="{% url 'service:invoice_new' %}">Create Invoice</a>
-                        <a class="dropdown-item" href="{% url 'service:invoice_list' %}">Open Invoices</a>
-                        <a class="dropdown-item" href="#">Closed Invoices</a>
+                        <a class="dropdown-item" href="{% url 'service:invoice_list' 'open' %}">Open Invoices</a>
+                        <a class="dropdown-item" href="{% url 'service:invoice_list' 'closed' %}">Closed Invoices</a>
+
                     </div>
                 </div>
             </div>

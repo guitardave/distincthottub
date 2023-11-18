@@ -14,7 +14,9 @@ urlpatterns = [
     path('parts/<int:pk>/detail/', views.PartDetail.as_view(), name='part_detail'),
     path('parts', views.PartUpdate.as_view(), name='part_update'),
     path('parts/new/', views.PartNew.as_view(), name='part_new'),
-    path('invoice/', views.InvoiceList.as_view(), name='invoice_list'),
-    path('invoice/new', views.InvoiceNew.as_view(), name='invoice_new'),
+    # path('invoice/', views.InvoiceList.as_view(), name='invoice_list'),
+    path('invoice/<str:closed>/', views.InvoiceList.as_view(), name='invoice_list'),
+    path('invoice/new/', views.InvoiceNew.as_view(), name='invoice_new'),
     path('invoive/<int:pk>/detail/', views.InvoiceDetail.as_view(), name='invoice_detail'),
+    path('invoice/<int:pk>/update/', views.InvoiceUpdate.as_view(), name='invoice_update'),
 ]
